@@ -460,17 +460,25 @@ Insert the following into your `org.ops4j.pax.logging.cfg` file:
 
 ```
     # insteonPLM logger configuration
-    log4j.logger.org.openhab.binding.insteonplm = DEBUG, insteonplm
-    log4j.additivity.org.openhab.binding.insteonplm = false
+        log4j2.logger.insteonplm.name = org.openhab.binding.insteonplm
+        log4j2.logger.insteonplm.level = DEBUG
+        log4j2.logger.insteonplm.additivity = false
+        log4j2.logger.insteonplm.appenderRefs = insteoneplm
+        log4j2.logger.insteonplm.appenderRef.event.ref = INSTEONPLM
+        log4j2.logger.insteonplm.appenderRef.osgi.ref = OSGI
 
     # File appender - insteonplm.log
-    log4j.appender.insteonplm=org.apache.log4j.RollingFileAppender
-    log4j.appender.insteonplm.layout=org.apache.log4j.PatternLayout
-    log4j.appender.insteonplm.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %l - %m%n
-    log4j.appender.insteonplm.file=${openhab.logdir}/insteonplm.log
-    log4j.appender.insteonplm.append=true
-    log4j.appender.insteonplm.maxFileSize=10MB
-    log4j.appender.insteonplm.maxBackupIndex=10
+        log4j2.appender.event.type = RollingRandomAccessFile
+        log4j2.appender.event.name = INSTEONPLM
+        log4j2.appender.event.fileName = ${openhab.logdir}/insteoneplm.log
+        log4j2.appender.event.filePattern = ${openhab.logdir}/insteonplm.log.%i
+        log4j2.appender.event.immediateFlush = true
+        log4j2.appender.event.append = true
+        log4j2.appender.event.layout.type = PatternLayout
+        log4j2.appender.event.layout.pattern = %d{yyyy-MM-dd HH:mm:ss.SSS} [%-26.26c] - %m%n
+        log4j2.appender.event.policies.type = Policies
+        log4j2.appender.event.policies.size.type = SizeBasedTriggeringPolicy
+        log4j2.appender.event.policies.size.size = 16MB
 ```
 
 ### Device Permissions / Linux Device Locks
